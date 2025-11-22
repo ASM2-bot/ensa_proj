@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+
+{% block title %}Calendrier Académique - Espace Étudiant{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .page-header h1 {
+        color: #333;
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .calendar-section {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .calendar-main {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .calendar-upload {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 10px;
+        border: 2px dashed #667eea;
+        text-align: center;
+    }
+
+    .calendar-upload h3 {
+        color: #667eea;
+        margin-bottom: 1rem;
+    }
+
+    .upload-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 0.8rem 2rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-top: 1rem;
+        transition: transform 0.2s;
+    }
+
+    .upload-btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .events-list {
+        margin-top: 2rem;
+    }
+
+    .event-item {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        border-left: 4px solid #667eea;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        transition: transform 0.2s;
+    }
+
+    .event-item:hover {
+        transform: translateX(5px);
+    }
+
+    .event-date {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .event-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333;
+        margin: 0.5rem 0;
+    }
+
+    .event-description {
+        color: #666;
+        font-size: 0.95rem;
+    }
+
+    .semester-tabs {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .tab-btn {
+        flex: 1;
+        padding: 1rem;
+        background: #f8f9fa;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+
+    .tab-btn.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-color: #667eea;
+    }
+
+    .quick-info {
+        background: #e7f3ff;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-top: 2rem;
+    }
+
+    .quick-info h3 {
+        color: #0066cc;
+        margin-bottom: 1rem;
+    }
+
+    .quick-info ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .quick-info li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #d0e8ff;
+    }
+
+    .quick-info li:last-child {
+        border-bottom: none;
+    }
+
+    @media (max-width: 968px) {
+        .calendar-section {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>📆 Calendrier Académique</h1>
+    <p>Année Universitaire 2024-2025</p>
+</div>
+
+<div class="semester-tabs">
+    <button class="tab-btn active">📘 Semestre 1</button>
+    <button class="tab-btn">📗 Semestre 2</button>
+</div>
+
+<div class="calendar-section">
+    <div class="calendar-main">
+        <h2 style="margin-bottom: 1.5rem; color: #333;">🗓️ Événements Importants</h2>
+        
+        <div class="events-list">
+            <div class="event-item">
+                <div class="event-date">📅 02 Septembre 2024</div>
+                <div class="event-title">🎓 Rentrée Universitaire</div>
+                <div class="event-description">Début des cours pour toutes les filières</div>
+            </div>
+
+            <div class="event-item">
+                <div class="event-date">📅 15-20 Octobre 2024</div>
+                <div class="event-title">📝 Examens Partiels</div>
+                <div class="event-description">Contrôles continus pour le premier semestre</div>
+            </div>
+
+            <div class="event-item">
+                <div class="event-date">📅 20-25 Décembre 2024</div>
+                <div class="event-title">📚 Examens Finaux S1</div>
+                <div class="event-description">Session d'examens de fin de semestre</div>
+            </div>
+
+            <div class="event-item">
+                <div class="event-date">📅 26 Déc - 05 Jan</div>
+                <div class="event-title">🎄 Vacances d'Hiver</div>
+                <div class="event-description">Pause hivernale</div>
+            </div>
+
+            <div class="event-item">
+                <div class="event-date">📅 06 Janvier 2025</div>
+                <div class="event-title">📖 Début Semestre 2</div>
+                <div class="event-description">Reprise des cours</div>
+            </div>
+
+            <div class="event-item">
+                <div class="event-date">📅 10-15 Mars 2025</div>
+                <div class="event-title">📝 Examens Partiels S2</div>
+                <div class="event-description">Contrôles continus pour le deuxième semestre</div>
+            </div>
+
+            <div class="event-item">
+                <div class="event-date">📅 20-25 Mai 2025</div>
+                <div class="event-title">📚 Examens Finaux S2</div>
+                <div class="event-description">Session d'examens de fin d'année</div>
+            </div>
+
+            <div class="event-item">
+                <div class="event-date">📅 10-20 Juin 2025</div>
+                <div class="event-title">🔁 Session de Rattrapage</div>
+                <div class="event-description">Examens de rattrapage pour les deux semestres</div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="calendar-upload">
+            <h3>📄 Importer le Calendrier</h3>
+            <p style="color: #666; margin-bottom: 1rem;">
+                Téléchargez le calendrier académique officiel en PDF
+            </p>
+            <input type="file" id="calendar-file" accept=".pdf" style="display: none;">
+            <button class="upload-btn" onclick="document.getElementById('calendar-file').click()">
+                📤 Choisir un fichier
+            </button>
+            <p style="color: #999; font-size: 0.85rem; margin-top: 1rem;">
+                Format accepté : PDF
+            </p>
+        </div>
+
+        <div class="quick-info">
+            <h3>ℹ️ Informations Rapides</h3>
+            <ul>
+                <li><strong>📚 Durée semestre :</strong> 15 semaines</li>
+                <li><strong>📝 Nombre d'examens :</strong> 2 sessions</li>
+                <li><strong>🎓 Diplômes :</strong> Licence / Master</li>
+                <li><strong>📅 Année académique :</strong> Sept - Juin</li>
+            </ul>
+        </div>
+
+        <div style="background: white; padding: 1.5rem; border-radius: 10px; margin-top: 1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+            <h3 style="margin-bottom: 1rem; color: #333;">📞 Contacts Utiles</h3>
+            <p style="color: #666; font-size: 0.9rem; line-height: 1.6;">
+                <strong>Scolarité :</strong> scolarite@ecole.ma<br>
+                <strong>Tél :</strong> +212 5XX-XXXXXX<br>
+                <strong>Horaires :</strong> Lun-Ven 9h-17h
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('calendar-file').addEventListener('change', function(e) {
+    if (e.target.files.length > 0) {
+        alert('Fichier sélectionné : ' + e.target.files[0].name + '\n\nFonctionnalité d\'upload à implémenter côté serveur.');
+    }
+});
+</script>
+{% endblock %}
