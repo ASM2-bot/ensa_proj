@@ -1,18 +1,19 @@
-mysql_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': '123',  # Changez ce mot de passe en production !
-    'database': 'gestion_scolaire',
-    'charset': 'utf8mb4',
-    'collation': 'utf8mb4_unicode_ci',
-    'autocommit': True
-}
+class config:
+    """configuration de mysql"""
+    MYSQL_HOST='localhost'
+    MYSQL_USER='root'
+    MYSQL_PASSWORD='DG@2005'
+    MYSQL_DB='gestion_etudiants'
+    MYSQL_PORT=3306
 
-
-
-
-
-
-
-
-
+    SECRET_KEY='1101'
+    DEBUG=True
+    @staticmethod
+    def get_db_config():
+        return {
+            'host':config.MYSQL_HOST,
+            'user':config.MYSQL_USER,
+            'password':config.MYSQL_PASSWORD,
+            'database':config.MYSQL_DB,
+            'port':config.MYSQL_PORT
+        }
