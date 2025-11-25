@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Mes Notes - ENSA{% endblock %}
+
+{% block content %}
+<div class="notes-container">
+    <div class="notes-header">
+        <h1>Mes Notes</h1>
+        <div class="moyenne-generale">
+            <span class="moyenne-label">Moyenne Générale</span>
+            <span class="moyenne-value {% if moyenne >= 12 %}moyenne-validee{% else %}moyenne-rattrapage{% endif %}">
+                {{ moyenne }}/20
+            </span>
+        </div>
+    </div>
+
+    {% if notes %}
+    <div class="notes-table-container">
+        <table class="notes-table">
+            <thead>
+                <tr>
+                    <th>Module</th>
+                    <th>Note</th>
+                    <th>Coefficient</th>
+                    <th>Type</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for note in notes %}
+                <tr>
+                    <td class="module-name">{{ note.module }}</td>
+                    <td class="note-value">
+                        <span class="{% if note.note >= 12 %}note-validee{% else %}note-rattrapage{% endif %}">
+                            {{ note.note }}/20
+                        </span>
+                    </td>
+                    <td>{{ note.coefficient }}</td>
+                    <td>
+                        <span class="badge badge-type">{{ note.type_evaluation }}</span>
+                    </td>
+                    <td>
+                        {% if note.statut == 'Validé' %}
+                        <span class="badge badge-success">{{ note.statut }}</span>
+                        {% else %}
+                        <span class="badge badge-warning">{{ note.statut }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Statistiques -->
+    <div class="notes-stats">
+        <div class="stat-card">
+            <div class="stat-content">
+                <span class="stat-value">{{ notes|selectattr('statut', 'equalto', 'Validé')|list|length }}</span>
+                <span class="stat-label">Modules validés</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-content">
+                <span class="stat-value">{{ notes|selectattr('statut', 'equalto', 'Rattrapage')|list|length }}</span>
+                <span class="stat-label">Rattrapages</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-content">
+                <span class="stat-value">{{ notes|length }}</span>
+                <span class="stat-label">Total modules</span>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="no-data">
+        <p>Aucune note disponible pour le moment</p>
+    </div>
+    {% endif %}
+
+    <div class="notes-info">
+        <h3>Information</h3>
+        <p>• Note ≥ 12 : Module <strong>Validé</strong></p>
+        <p>• Note < 12 : <strong>Rattrapage</strong> requis</p>
+    </div>
+</div>
+{% endblock %}
