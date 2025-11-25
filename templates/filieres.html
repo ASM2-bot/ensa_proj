@@ -1,92 +1,100 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filières - UIR</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+{% extends "base.html" %}
 
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background-color: #f4f7fb;
-            color: #333;
-        }
+{% block title %}Filières - Espace Étudiant{% endblock %}
 
-        /* --- Barre de navigation --- */
-        header {
-            background-color: #004C97;
-            color: white;
-            padding: 15px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
-        }
-        header h1 {
-            margin: 0;
-            font-size: 22px;
-            letter-spacing: 1px;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 25px;
-            font-weight: 500;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
+{% block extra_css %}
+<style>
+.page-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
 
-        /* --- Contenu principal --- */
-        .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 30px;
-        }
+.page-header h1 {
+    color: #333;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
 
-        h2 {
-            color: #004C97;
-            text-align: center;
-            margin-bottom: 30px;
-        }
+.page-header p {
+    color: #666;
+    font-size: 1.1rem;
+}
 
-        /* --- Grille des filières --- */
-        .filieres-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
+.filieres-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
 
-        .filiere-card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            padding: 25px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+.filiere-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    color: white;
+}
 
-        .filiere-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-        }
+.filiere-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
 
-        .filiere-code {
-            font-size: 18px;
-            font-weight: 600;
-            color: #004C97;
-        }
+.filiere-card h2 {
+    color: white;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
 
-        .filiere-nom {
-            font-size: 15px;
-            margin-top: 10px;
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
+.filiere-card .code {
+    background: rgba(255,255,255,0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
 
-        .filiere-info {
-            font-size: 14px;
+.filiere-card .info {
+    margin: 0.8rem 0;
+    font-size: 0.95rem;
+}
+
+.filiere-card .info strong {
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+@media (max-width: 768px) {
+    .filieres-list {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🎓 Filières</h1>
+    <p>Découvrez nos programmes de formation</p>
+</div>
+
+<div class="filieres-list">
+    {% for filiere in filieres %}
+    <div class="filiere-card">
+        <h2>{{ filiere.nom }}</h2>
+        <div class="code">Code : {{ filiere.code }}</div>
+        <div class="info">
+            <strong>📅 Durée</strong>
+            {{ filiere.duree }}
+        </div>
+        <div class="info">
+            <strong>👥 Nombre d'étudiants</strong>
+            {{ filiere.nombre_etudiants }}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

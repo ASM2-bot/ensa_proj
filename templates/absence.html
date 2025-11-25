@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Emploi du temps - Espace Étudiant{% endblock %}
+{% block title %}Absences - Espace Étudiant{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -20,7 +20,7 @@
     font-size: 1.1rem;
 }
 
-.filiere-select {
+.filter {
     text-align: center;
     margin-bottom: 2rem;
     padding: 1.5rem;
@@ -28,7 +28,7 @@
     border-radius: 10px;
 }
 
-.filiere-select form {
+.filter form {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -44,7 +44,7 @@ select, button {
 }
 
 select {
-    min-width: 300px;
+    min-width: 250px;
     background: white;
 }
 
@@ -99,11 +99,6 @@ td {
     font-style: italic;
 }
 
-.jour-cell {
-    font-weight: 600;
-    color: #667eea;
-}
-
 @media (max-width: 768px) {
     select {
         min-width: 200px;
@@ -119,21 +114,21 @@ td {
 
 {% block content %}
 <div class="page-header">
-    <h1>🗓️ Emploi du temps</h1>
-    <p>Sélectionnez votre filière pour consulter l'emploi du temps</p>
+    <h1>📋 Absences</h1>
+    <p>Consultez les absences par étudiant</p>
 </div>
 
-<div class="filiere-select">
-    <form method="get" action="/emploi">
-        <select name="filiere" required>
-            <option value="">-- Choisir une filière --</option>
-            {% for f in filieres %}
-            <option value="{{ f.id }}" {% if filiere_selectionnee == f.id %}selected{% endif %}>
-                {{ f.nom }}
+<div class="filter">
+    <form method="get" action="/absence">
+        <select name="etudiant">
+            <option value="">-- Tous les étudiants --</option>
+            {% for etu in etudiants %}
+            <option value="{{ etu }}" {% if etudiant_selectionne == etu %}selected{% endif %}>
+                {{ etu }}
             </option>
             {% endfor %}
         </select>
-        <button type="submit"> Voir l'emploi</button>
+        <button type="submit">🔍 Filtrer</button>
     </form>
 </div>
 
@@ -141,30 +136,26 @@ td {
     <table>
         <thead>
             <tr>
-                <th> Jour</th>
-                <th> Heure</th>
-                <th> Module</th>
-                <th> Salle</th>
+                <th>👤 Étudiant</th>
+                <th>📚 Module</th>
+                <th>📅 Date d'absence</th>
+                <th>🎓 Filière</th>
             </tr>
         </thead>
         <tbody>
-            {% if emploi %}
-                {% for c in emploi %}
+            {% if absences %}
+                {% for abs in absences %}
                 <tr>
-                    <td class="jour-cell">{{ c.jour }}</td>
-                    <td>{{ c.heure }}</td>
-                    <td>{{ c.module }}</td>
-                    <td>{{ c.salle }}</td>
+                    <td>{{ abs.etudiant_nom }}</td>
+                    <td>{{ abs.module }}</td>
+                    <td>{{ abs.date_absence }}</td>
+                    <td>{{ abs.filiere_nom }}</td>
                 </tr>
                 {% endfor %}
             {% else %}
                 <tr>
                     <td colspan="4" class="no-data">
-                        {% if filiere_selectionnee %}
-                            Aucun cours programmé pour cette filière
-                        {% else %}
-                            Veuillez sélectionner une filière
-                        {% endif %}
+                        Aucune absence enregistrée
                     </td>
                 </tr>
             {% endif %}

@@ -4,109 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Espace Étudiant{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Styles communs -->
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fb;
+            color: #333;
         }
 
-        /* Header et Navigation */
-        .header {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .navbar {
-            max-width: 1200px;
-            margin: 0 auto;
+        /* --- Header & Navbar --- */
+        header {
+            background-color: #004C97;
+            color: white;
+            padding: 15px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 2rem;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
         }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #667eea;
+        header h1 {
+            margin: 0;
+            font-size: 22px;
+            letter-spacing: 1px;
         }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-        }
-
-        .nav-links a:hover {
-            color: #667eea;
-            background: #f0f0f0;
-        }
-
-        .nav-links a.active {
+        nav a {
             color: white;
-            background: #667eea;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        nav a:hover {
+            text-decoration: underline;
+            color: #ffd700;
         }
 
-        /* Container principal */
+        /* --- Container principal --- */
         .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        .content-wrapper {
+            max-width: 1100px;
+            margin: 40px auto;
             background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            min-height: 500px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
+        /* --- Footer --- */
+        footer {
+            background: #004C97;
+            color: white;
+            padding: 20px 40px;
+            text-align: center;
+            margin-top: 40px;
+        }
 
-            .navbar {
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            header {
                 flex-direction: column;
-                gap: 1rem;
+                align-items: flex-start;
+            }
+            nav {
+                margin-top: 10px;
+            }
+            nav a {
+                margin-left: 0;
+                margin-right: 15px;
+            }
+            .container {
+                padding: 20px;
+                margin: 20px;
             }
         }
     </style>
+
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <header class="header">
-        <nav class="navbar">
-            <div class="logo">🎓 Espace Étudiant</div>
-            <ul class="nav-links">
-                <li><a href="/filieres" {% if request.endpoint == 'filieres' %}class="active"{% endif %}>📚 Filières</a></li>
-                <li><a href="/absences" {% if request.endpoint == 'absences' %}class="active"{% endif %}>❌ Absences</a></li>
-                <li><a href="/emploi-temps" {% if request.endpoint == 'emploi_temps' %}class="active"{% endif %}>📅 Emploi du Temps</a></li>
-                <li><a href="/calendrier" {% if request.endpoint == 'calendrier' %}class="active"{% endif %}>📆 Calendrier</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <div class="container">
+<header>
+    <h1>📚 Portail Étudiant UIR</h1>
+    <nav>
+        <a href="/">Filières</a>
+        <a href="/absence">Absences</a>
+        <a href="/emploi">Emploi du temps</a>
+        <a href="/calendrier">Calendrier académique</a>
+    </nav>
+</header>
+
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<footer>
+    &copy; 2025 Université Internationale de Rabat (UIR) - Tous droits réservés
+</footer>
+
+</body>
+</html>
