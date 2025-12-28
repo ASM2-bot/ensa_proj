@@ -40,7 +40,7 @@ select, button {
     padding: 0.8rem 1rem;
     font-size: 1rem;
     border-radius: 8px;
-    border: 2px solid #667eea;
+    border: 2px solid #1f4e79;
 }
 
 select {
@@ -49,7 +49,7 @@ select {
 }
 
 button {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1f4e79 0%, #1f4e79 100%);
     color: white;
     cursor: pointer;
     transition: transform 0.2s;
@@ -78,7 +78,7 @@ th, td {
 }
 
 th {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1f4e79 0%, #1f4e79 100%);
     color: white;
     font-weight: 600;
     text-align: center;
@@ -114,7 +114,7 @@ td {
 
 {% block content %}
 <div class="page-header">
-    <h1>📋 Absences</h1>
+    <h1> Absences</h1>
     <p>Consultez les absences par étudiant</p>
 </div>
 
@@ -128,7 +128,7 @@ td {
             </option>
             {% endfor %}
         </select>
-        <button type="submit">🔍 Filtrer</button>
+        <button type="submit"> Filtrer</button>
     </form>
 </div>
 
@@ -136,10 +136,10 @@ td {
     <table>
         <thead>
             <tr>
-                <th>👤 Étudiant</th>
-                <th>📚 Module</th>
-                <th>📅 Date d'absence</th>
-                <th>🎓 Filière</th>
+                <th> Étudiant</th>
+                <th> Module</th>
+                <th> Date d'absence</th>
+                <th> Filière</th>
             </tr>
         </thead>
         <tbody>

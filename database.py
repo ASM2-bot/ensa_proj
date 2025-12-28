@@ -4,13 +4,11 @@ from config import mysql_config
 
 def get_db_connection():
     """Établit une connexion à la base de données MySQL"""
-    try:
-        conn = mysql.connector.connect(**mysql_config)
-        print("Connexion MySQL réussie")
-        return conn
-    except Exception as e:
-        print(f"Erreur de connexion MySQL: {e}")
-        return None
+    
+    conn = mysql.connector.connect(**mysql_config)
+    print("Connexion MySQL réussie")
+    return conn
+
 
 
 def init_filieres_tables():
@@ -96,33 +94,31 @@ def init_filieres_tables():
 
 def get_all_filieres():
     """Récupère toutes les filières"""
-    try:
-        conn = get_db_connection()
-        if not conn:
+    
+    conn = get_db_connection()
+    if not conn:
             return []
         
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM filieres ORDER BY nom')
-        data = cursor.fetchall()
-        cursor.close()
-        conn.close()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('SELECT * FROM filieres ORDER BY nom')
+    data = cursor.fetchall()
+    cursor.close()
+    conn.close()
         
-        print(f"DEBUG get_all_filieres: {len(data)} filières récupérées")
-        return data
-    except Exception as e:
-        print(f"Erreur lors de la récupération des filières: {e}")
-        return []
+    print(f"DEBUG get_all_filieres: {len(data)} filières récupérées")
+    return data
+
 
 
 def get_all_absences():
     """Récupère toutes les absences avec les informations de filière"""
-    try:
-        conn = get_db_connection()
-        if not conn:
+    
+    conn = get_db_connection()
+    if not conn:
             return []
         
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute('''
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('''
             SELECT 
                 a.id,
                 a.etudiant_nom,
@@ -134,31 +130,28 @@ def get_all_absences():
             LEFT JOIN filieres f ON a.filiere_id = f.id
             ORDER BY a.date_absence DESC
         ''')
-        data = cursor.fetchall()
-        cursor.close()
-        conn.close()
+    data = cursor.fetchall()
         
-        print(f"DEBUG get_all_absences: {len(data)} absences récupérées")
-        if len(data) > 0:
+    cursor.close()
+    conn.close()
+        
+    print(f"DEBUG get_all_absences: {len(data)} absences récupérées")
+    if len(data) > 0:
             print(f"DEBUG Exemple: {data[0]}")
         
-        return data
-    except Exception as e:
-        print(f"ERREUR get_all_absences: {e}")
-        import traceback
-        traceback.print_exc()
-        return []
+    return data
+
 
 
 def get_absence_by_student(etudiant_nom):
     """Récupère les absences d'un étudiant spécifique"""
-    try:
-        conn = get_db_connection()
-        if not conn:
+    
+    conn = get_db_connection()
+    if not conn:
             return []
         
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute('''
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('''
             SELECT 
                 a.id,
                 a.etudiant_nom,
@@ -171,28 +164,24 @@ def get_absence_by_student(etudiant_nom):
             WHERE a.etudiant_nom = %s
             ORDER BY a.date_absence DESC
         ''', (etudiant_nom,))
-        data = cursor.fetchall()
-        cursor.close()
-        conn.close()
+    data = cursor.fetchall()
+    cursor.close()
+    conn.close()
         
-        print(f"DEBUG get_absence_by_student({etudiant_nom}): {len(data)} absences")
-        return data
-    except Exception as e:
-        print(f"ERREUR get_absence_by_student: {e}")
-        import traceback
-        traceback.print_exc()
-        return []
+    print(f"DEBUG get_absence_by_student({etudiant_nom}): {len(data)} absences")
+    return data
+
 
 
 def get_emploi_by_filiere(filiere_id):
     """Récupère l'emploi du temps d'une filière"""
-    try:
-        conn = get_db_connection()
-        if not conn:
+    
+    conn = get_db_connection()
+    if not conn:
             return []
         
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute('''
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('''
             SELECT id,
             jour,
             heure,
@@ -205,85 +194,75 @@ def get_emploi_by_filiere(filiere_id):
                 FIELD(jour, 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'),
                 heure
         ''', (filiere_id,))
-        data = cursor.fetchall()
-        cursor.close()
-        conn.close()
+    data = cursor.fetchall()
+    cursor.close()
+    conn.close()
         
-        print(f"DEBUG get_emploi_by_filiere({filiere_id}): {len(data)} cours")
-        if len(data) > 0:
+    print(f"DEBUG get_emploi_by_filiere({filiere_id}): {len(data)} cours")
+    if len(data) > 0:
             print(f"DEBUG Exemple: {data[0]}")
         
-        return data
-    except Exception as e:
-        print(f"ERREUR get_emploi_by_filiere: {e}")
-        import traceback
-        traceback.print_exc()
-        return []
+    return data
+    
 
 
 def get_modules_by_filiere(filiere_id):
     """Récupère les modules d'une filière"""
-    try:
-        conn = get_db_connection()
-        if not conn:
+    
+    conn = get_db_connection()
+    if not conn:
             return []
         
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute('''
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('''
             SELECT * FROM modules
             WHERE filiere_id = %s
             ORDER BY semestre, nom
         ''', (filiere_id,))
-        data = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        return data
-    except Exception as e:
-        print(f"ERREUR get_modules_by_filiere: {e}")
-        return []
-
+    data = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return data
+    
 
 def get_annonces_by_filiere(filiere_id):
     """Récupère les annonces d'une filière"""
-    try:
-        conn = get_db_connection()
-        if not conn:
+    
+    conn = get_db_connection()
+    if not conn:
             return []
         
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute('''
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('''
             SELECT * FROM annonces
             WHERE filiere_id = %s
             ORDER BY date_publication DESC
         ''', (filiere_id,))
-        data = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        return data
-    except Exception as e:
-        print(f"ERREUR get_annonces_by_filiere: {e}")
-        return []
+    data = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return data
+    
+
 
 
 def get_student_by_login(username, code_personnel):
     """Récupère un étudiant par son login et code personnel"""
-    try:
-        conn = get_db_connection()
-        if not conn:
+    
+    conn = get_db_connection()
+    if not conn:
             return None
         
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute('''
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('''
             SELECT * FROM students
             WHERE username = %s AND code_personnel = %s
         ''', (username, code_personnel))
-        student = cursor.fetchone()
-        cursor.close()
-        conn.close()
-        return student
-    except Exception as e:
-        print(f"ERREUR get_student_by_login: {e}")
-        return None
+    student = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return student
+
 
 
 # Fonction de test pour vérifier les données

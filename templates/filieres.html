@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Filières - Espace Étudiant{% endblock %}
+{% block title %}ENSAO - Filières{% endblock %}
 
 {% block extra_css %}
 <style>
+/* ===== TITRE DE PAGE ===== */
 .page-header {
     text-align: center;
     margin-bottom: 2rem;
@@ -11,62 +12,66 @@
 
 .page-header h1 {
     color: #333;
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 2.3rem;
+    margin-bottom: 0.4rem;
 }
 
 .page-header p {
     color: #666;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
+/* ===== GRILLE DES CARTES ===== */
 .filieres-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 0.5fr)); /* moins large */
+    gap: 1.4rem;
     margin-top: 2rem;
 }
 
+/* ===== CARTE FILIÈRE ===== */
 .filiere-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    background: linear-gradient(135deg, #6e8ea2 0%, #a9c5d7 100%);
+    padding: 2rem 1.8rem;   /* plus longue */
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
     color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .filiere-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transform: translateY(-6px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 }
 
+/* ===== CONTENU ===== */
 .filiere-card h2 {
-    color: white;
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
+    font-size: 1.35rem;
+    margin-bottom: 0.8rem;
 }
 
 .filiere-card .code {
     background: rgba(255,255,255,0.2);
-    padding: 0.5rem 1rem;
+    padding: 0.45rem 0.9rem;
     border-radius: 8px;
     display: inline-block;
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 600;
 }
 
 .filiere-card .info {
-    margin: 0.8rem 0;
+    margin: 0.7rem 0;
     font-size: 0.95rem;
 }
 
 .filiere-card .info strong {
     display: block;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.2rem;
 }
 
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .filieres-list {
         grid-template-columns: 1fr;
@@ -77,7 +82,7 @@
 
 {% block content %}
 <div class="page-header">
-    <h1>🎓 Filières</h1>
+    <h1>Filières</h1>
     <p>Découvrez nos programmes de formation</p>
 </div>
 
@@ -85,13 +90,18 @@
     {% for filiere in filieres %}
     <div class="filiere-card">
         <h2>{{ filiere.nom }}</h2>
-        <div class="code">Code : {{ filiere.code }}</div>
+
+        <div class="code">
+            Code : {{ filiere.code }}
+        </div>
+
         <div class="info">
-            <strong>📅 Durée</strong>
+            <strong>Durée</strong>
             {{ filiere.duree }}
         </div>
+
         <div class="info">
-            <strong>👥 Nombre d'étudiants</strong>
+            <strong>Nombre d'étudiants</strong>
             {{ filiere.nombre_etudiants }}
         </div>
     </div>

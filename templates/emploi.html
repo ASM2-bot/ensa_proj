@@ -1,174 +1,159 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Emploi du temps</title>
 
-{% block title %}Emploi du temps - Espace Étudiant{% endblock %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            padding: 20px;
+        }
 
-{% block extra_css %}
-<style>
-.page-header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
+        h1 {
+            text-align: center;
+            color: #1f4e79;
+        }
 
-.page-header h1 {
-    color: #333;
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-}
+        .filiere-select {
+            text-align: center;
+            margin-bottom: 20px;
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+        }
 
-.page-header p {
-    color: #666;
-    font-size: 1.1rem;
-}
+        select, button {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #667eea;
+            font-size: 1rem;
+        }
 
-.filiere-select {
-    text-align: center;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background: #f8f9fa;
-    border-radius: 10px;
-}
+        button {
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
 
-.filiere-select form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
+        .table-container {
+            overflow-x: auto;
+        }
 
-select, button {
-    padding: 0.8rem 1rem;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 2px solid #667eea;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
 
-select {
-    min-width: 300px;
-    background: white;
-}
+        th {
+            background: #1f4e79;
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
 
-button {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    cursor: pointer;
-    transition: transform 0.2s;
-    border: none;
-    font-weight: 600;
-}
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            min-width: 150px;
+            vertical-align: top;
+        }
 
-button:hover {
-    transform: translateY(-2px);
-}
+        .heure-cell {
+            background: #f0f2f7;
+            font-weight: bold;
+            text-align: center;
+        }
 
-.table-container {
-    overflow-x: auto;
-}
+        .cours {
+            background: #eef3ff;
+            border-left: 5px solid #667eea;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-}
+        .vide {
+            color: #bbb;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
 
-th, td {
-    padding: 1rem;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-}
+<body>
 
-th {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    font-weight: 600;
-    text-align: center;
-}
+<h1>🗓️ Emploi du temps</h1>
 
-tr:hover {
-    background: #f2f6fb;
-}
-
-td {
-    text-align: center;
-}
-
-.no-data {
-    text-align: center;
-    padding: 2rem;
-    color: #666;
-    font-style: italic;
-}
-
-.jour-cell {
-    font-weight: 600;
-    color: #667eea;
-}
-
-@media (max-width: 768px) {
-    select {
-        min-width: 200px;
-    }
-    
-    th, td {
-        padding: 0.6rem;
-        font-size: 0.9rem;
-    }
-}
-</style>
-{% endblock %}
-
-{% block content %}
-<div class="page-header">
-    <h1>🗓️ Emploi du temps</h1>
-    <p>Sélectionnez votre filière pour consulter l'emploi du temps</p>
+<div style="margin-bottom: 15px;">
+    <a href="{{ url_for('filieres') }}">
+        <button>⬅ Retour</button>
+    </a>
 </div>
 
+<div class="filiere-select">
+    <form method="get" action="/emploi">
+        ...
+    </form>
+</div>
 <div class="filiere-select">
     <form method="get" action="/emploi">
         <select name="filiere" required>
             <option value="">-- Choisir une filière --</option>
             {% for f in filieres %}
-            <option value="{{ f.id }}" {% if filiere_selectionnee == f.id %}selected{% endif %}>
-                {{ f.nom }}
-            </option>
+                <option value="{{ f.id }}" {% if filiere_selectionnee == f.id %}selected{% endif %}>
+                    {{ f.nom }}
+                </option>
             {% endfor %}
         </select>
-        <button type="submit"> Voir l'emploi</button>
+        <button type="submit">Voir</button>
     </form>
 </div>
 
 <div class="table-container">
+
     <table>
         <thead>
             <tr>
-                <th> Jour</th>
-                <th> Heure</th>
-                <th> Module</th>
-                <th> Salle</th>
+                <th>Heure</th>
+                {% for jour in jours %}
+                    <th>{{ jour }}</th>
+                {% endfor %}
             </tr>
         </thead>
+
         <tbody>
             {% if emploi %}
-                {% for c in emploi %}
+                {% for heure, lignes in emploi.items() %}
                 <tr>
-                    <td class="jour-cell">{{ c.jour }}</td>
-                    <td>{{ c.heure }}</td>
-                    <td>{{ c.module }}</td>
-                    <td>{{ c.salle }}</td>
+                    <td class="heure-cell">{{ heure }}</td>
+                    {% for jour in jours %}
+                        <td>
+                            {% if jour in lignes %}
+                                <div class="cours">
+                                    <strong>{{ lignes[jour].module }}</strong><br>
+                                    Salle : {{ lignes[jour].salle }}
+                                </div>
+                            {% else %}
+                                <div class="vide">—</div>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
                 </tr>
                 {% endfor %}
             {% else %}
                 <tr>
-                    <td colspan="4" class="no-data">
-                        {% if filiere_selectionnee %}
-                            Aucun cours programmé pour cette filière
-                        {% else %}
-                            Veuillez sélectionner une filière
-                        {% endif %}
+                    <td colspan="7" class="vide">
+                        Veuillez sélectionner une filière
                     </td>
                 </tr>
             {% endif %}
         </tbody>
     </table>
 </div>
-{% endblock %}
+
+</body>
+</html>

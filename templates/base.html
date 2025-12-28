@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Espace Étudiant{% endblock %}</title>
+    <title>{% block title %}espace etudiant{% endblock %}</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
         header {
             background-color: #004C97;
             color: white;
-            padding: 15px 40px;
+            padding: 12px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -48,7 +48,7 @@
         /* --- Container principal --- */
         .container {
             max-width: 1100px;
-            margin: 40px auto;
+            margin: 30px auto;
             background: white;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -88,15 +88,22 @@
 </head>
 <body>
 
-<header>
-    <h1>📚 Portail Étudiant UIR</h1>
-    <nav>
-        <a href="/">Filières</a>
-        <a href="/absence">Absences</a>
-        <a href="/emploi">Emploi du temps</a>
-        <a href="/calendrier">Calendrier académique</a>
+    <header style="position: relative; height: 50px; background-color: #004C97; display: flex; align-items: center; padding: 0 40px;">
+    <!-- Logo agrandi, dépasse du header mais le header reste fixe -->
+    <img src="{{ url_for('static', filename='images/logo CNASA inspiré d.png') }}" 
+         alt="Logo" 
+         style="height: 150px; width: auto; position: absolute; left: 9px; top: 50%; transform: translateY(-50%);" 
+         onerror="alert('Image non trouvée')">
+
+    <!-- Navigation -->
+    <nav style="margin-left: auto; display: flex; align-items: center;">
+        <a href="/" style="color: white; margin-left: 25px; text-decoration: none;">Filières</a>
+        <a href="/absence" style="color: white; margin-left: 25px; text-decoration: none;">Absences</a>
+        <a href="/emploi" style="color: white; margin-left: 25px; text-decoration: none;">Emploi du temps</a>
+        <a href="/calendrier" style="color: white; margin-left: 25px; text-decoration: none;">Calendrier académique</a>
     </nav>
 </header>
+
 
 <div class="container">
     {% block content %}
@@ -104,7 +111,7 @@
 </div>
 
 <footer>
-    &copy; 2025 Université Internationale de Rabat (UIR) - Tous droits réservés
+    &copy; 2025 Ecole national des sciences appliquées (ensao) -2025
 </footer>
 
 </body>
