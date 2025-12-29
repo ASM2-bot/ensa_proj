@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Mon Profil - ENSA{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="profile-avatar">
+            <span class="avatar-text">{{ etudiant.prenom[0] }}{{ etudiant.nom[0] }}</span>
+        </div>
+        <div class="profile-info">
+            <h1>{{ etudiant.prenom }} {{ etudiant.nom }}</h1>
+            <p class="profile-email">{{ etudiant.email }}</p>
+        </div>
+    </div>
+
+    <div class="profile-card">
+        <h2>Informations personnelles</h2>
+        
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="info-label">Nom complet</span>
+                <span class="info-value">{{ etudiant.prenom }} {{ etudiant.nom }}</span>
+            </div>
+
+            <div class="info-item">
+                <span class="info-label">Email</span>
+                <span class="info-value">{{ etudiant.email }}</span>
+            </div>
+
+            <div class="info-item">
+                <span class="info-label">Filière</span>
+                <span class="info-value">{{ etudiant.filiere_nom or etudiant.filiere_code or 'Non définie' }}</span>
+            </div>
+
+            <div class="info-item">
+                <span class="info-label">École</span>
+                <span class="info-value">ENSA Oujda</span>
+            </div>
+
+            <div class="info-item">
+                <span class="info-label">Date d'inscription</span>
+                <span class="info-value">{{ etudiant.date_inscription.strftime('%d/%m/%Y') }}</span>
+            </div>
+
+            <div class="info-item">
+                <span class="info-label">Numéro étudiant</span>
+                <span class="info-value">ET{{ '%06d' % etudiant.id }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-actions">
+        <a href="{{ url_for('notes') }}" class="btn btn-primary">Voir mes notes</a>
+        <a href="{{ url_for('contact') }}" class="btn btn-secondary">Contacter la scolarité</a>
+    </div>
+</div>
+{% endblock %}

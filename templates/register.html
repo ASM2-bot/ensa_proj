@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Inscription - ENSA{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>Inscription</h1>
+            <p>Créez votre compte étudiant</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('register') }}" class="auth-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nom">Nom</label>
+                    <input 
+                        type="text" 
+                        id="nom" 
+                        name="nom" 
+                        placeholder="Filali"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="prenom">Prénom</label>
+                    <input 
+                        type="text" 
+                        id="prenom" 
+                        name="prenom" 
+                        placeholder="Fatima"
+                        required
+                    >
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    placeholder="fatima.f@ensa.ma"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Minimum 6 caractères"
+                    required
+                >
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="filiere">Filière</label>
+                    <select id="filiere" name="filiere" required>
+                        <option value="">Choisir une filière</option>
+                        <option value="ITIRC">ITIRC</option>
+                        <option value="GI">Génie Informatique</option>
+                        <option value="GE">Génie Électrique</option>
+                        <option value="GM">Génie Mécanique</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ecole">École</label>
+                    <input 
+                        type="text" 
+                        id="ecole" 
+                        name="ecole" 
+                        value="ENSA"
+                        readonly
+                    >
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">S'inscrire</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Déjà inscrit ? <a href="{{ url_for('login') }}">Se connecter</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

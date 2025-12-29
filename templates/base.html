@@ -3,116 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}espace etudiant{% endblock %}</title>
+    <title>{% block title %}Espace Étudiant{% endblock %}</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
     <!-- Styles communs -->
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background-color: #f4f7fb;
-            color: #333;
-        }
-
-        /* --- Header & Navbar --- */
-        header {
-            background-color: #004C97;
-            color: white;
-            padding: 12px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
-            flex-wrap: wrap;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 22px;
-            letter-spacing: 1px;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 25px;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        nav a:hover {
-            text-decoration: underline;
-            color: #ffd700;
-        }
-
-        /* --- Container principal --- */
-        .container {
-            max-width: 1100px;
-            margin: 30px auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 30px;
-        }
-
-        /* --- Footer --- */
-        footer {
-            background: #004C97;
-            color: white;
-            padding: 20px 40px;
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        /* --- Responsive --- */
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            nav {
-                margin-top: 10px;
-            }
-            nav a {
-                margin-left: 0;
-                margin-right: 15px;
-            }
-            .container {
-                padding: 20px;
-                margin: 20px;
-            }
-        }
-    </style>
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-
+    <!-- Header / Navbar -->
     <header style="position: relative; height: 50px; background-color: #004C97; display: flex; align-items: center; padding: 0 40px;">
-    <!-- Logo agrandi, dépasse du header mais le header reste fixe -->
-    <img src="{{ url_for('static', filename='images/logo CNASA inspiré d.png') }}" 
-         alt="Logo" 
-         style="height: 150px; width: auto; position: absolute; left: 9px; top: 50%; transform: translateY(-50%);" 
-         onerror="alert('Image non trouvée')">
+        <!-- Logo -->
+        <img src="{{ url_for('static', filename='images/logo CNASA inspiré d.png') }}" 
+             alt="Logo" 
+             style="height: 150px; width: auto; position: absolute; left: 9px; top: 50%; transform: translateY(-50%);" 
+             onerror="alert('Image non trouvée')">
 
-    <!-- Navigation -->
-    <nav style="margin-left: auto; display: flex; align-items: center;">
-        <a href="/" style="color: white; margin-left: 25px; text-decoration: none;">Filières</a>
-        <a href="/absence" style="color: white; margin-left: 25px; text-decoration: none;">Absences</a>
-        <a href="/emploi" style="color: white; margin-left: 25px; text-decoration: none;">Emploi du temps</a>
-        <a href="/calendrier" style="color: white; margin-left: 25px; text-decoration: none;">Calendrier académique</a>
-    </nav>
-</header>
+        <!-- Navigation -->
+        {% if session.user_id %}
+        <nav style="margin-left: auto; display: flex; align-items: center;">
+            <a href="{{ url_for('profile') }}" class="{% if request.endpoint == 'profile' %}active{% endif %}">Profil</a>
+            <a href="{{ url_for('notes') }}" class="{% if request.endpoint == 'notes' %}active{% endif %}">Notes</a>
+            <a href="{{ url_for('contact') }}" class="{% if request.endpoint == 'contact' %}active{% endif %}">Contact</a>
+            <a href="{{ url_for('logout') }}" class="logout">Déconnexion</a>
+        </nav>
+        {% endif %}
+    </header>
 
+    <!-- Messages Flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                        <button class="close-alert" onclick="this.parentElement.style.display='none'">&times;</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
 
-<div class="container">
-    {% block content %}
-    {% endblock %}
-</div>
+    <!-- Contenu principal -->
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
 
-<footer>
-    &copy; 2025 Ecole national des sciences appliquées (ensao) -2025
-</footer>
-
+    <!-- Footer -->
+    <footer class="footer" style="background-color:#004C97; color:white; padding:20px 40px; text-align:center; margin-top:40px;">
+        <p>&copy; 2025 ENSA Oujda - École Nationale des Sciences Appliquées</p>
+        <p>Développé par DOUAE & ASMAE</p>
+    </footer>
 </body>
 </html>
+
